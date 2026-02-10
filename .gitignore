@@ -1,27 +1,104 @@
-# Bundler cache
-.bundle
-vendor
-Gemfile.lock
-
-# Jekyll cache
-.jekyll-cache
+# ===================================
+# Jekyll
+# ===================================
+_site/
+.sass-cache/
+.jekyll-cache/
 .jekyll-metadata
-_site
+.bundle/
+vendor/
 
-# RubyGems
-*.gem
+# ===================================
+# Obsidian
+# ===================================
+.obsidian/workspace.json
+.obsidian/workspace-mobile.json
+.obsidian/hotkeys.json
+.obsidian/graph.json
+.obsidian/app.json
+.obsidian/appearance.json
+.obsidian/plugins/obsidian-git/data.json
 
-# NPM dependencies
-node_modules
+# Obsidian 캐시
+.obsidian/cache
+
+# 개인 설정 (공유하고 싶으면 주석 처리)
+.obsidian/workspace
+.obsidian/workspaces.json
+
+# ===================================
+# Ruby
+# ===================================
+Gemfile.lock
+.ruby-version
+.ruby-gemset
+
+# ===================================
+# Node.js (Chirpy 테마 사용 시)
+# ===================================
+node_modules/
 package-lock.json
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
 
-# IDE configurations
-.idea
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
-!.vscode/tasks.json
+# ===================================
+# 임시 파일
+# ===================================
+*~
+*.swp
+*.swo
+*.tmp
+*.bak
+*.log
+.DS_Store
+Thumbs.db
+desktop.ini
 
-# Misc
-_sass/vendors
-assets/js/dist
+# ===================================
+# 에디터 설정
+# ===================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ===================================
+# 개인 메모 (공유 안 함)
+# ===================================
+_drafts/
+_private/
+_notes/
+TODO.md
+NOTES.md
+
+# ===================================
+# 빌드 파일
+# ===================================
+assets/js/dist/
+_javascript/
+
+# ===================================
+# 환경 변수
+# ===================================
+.env
+.env.local
+.env.*.local
+
+# ===================================
+# 테스트
+# ===================================
+.htmltest/
+tmp/
+
+# ===================================
+# 기타
+# ===================================
+*.pid
+*.seed
+*.pid.lock
+.npm
+.eslintcache
