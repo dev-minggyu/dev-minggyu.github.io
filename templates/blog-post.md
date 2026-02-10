@@ -51,5 +51,3 @@ tags: [<% tags %>]
 ---
 
 ## References
-
--
