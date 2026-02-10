@@ -1,12 +1,12 @@
 ﻿<%*
-// 1. 제목
+// 1. 제목 입력
 const title = await tp.system.prompt("Post Title");
 if (!title) {
     await tp.file.delete();
     return;
 }
 
-// 2. 파일명 생성 및 변경
+// 2. 파일명 생성 (YYYY-MM-DD-slug.md)
 const date = tp.date.now("YYYY-MM-DD");
 const slug = title
     .toLowerCase()
@@ -18,15 +18,21 @@ const fileName = `${date}-${slug}`;
 await tp.file.rename(fileName);
 
 // 3. 카테고리 입력
-const category = await tp.system.prompt("Category");
+const categoryInput = await tp.system.prompt("Category (comma separated)");
+const categories = categoryInput 
+    ? categoryInput.split(',').map(c => c.trim()).join(', ')
+    : '';
 
 // 4. 태그 입력
-const tags = await tp.system.prompt("Tags (comma separated)");
+const tagsInput = await tp.system.prompt("Tags (comma separated)");
+const tags = tagsInput 
+    ? tagsInput.split(',').map(t => t.trim()).join(', ')
+    : '';
 -%>
 ---
 title: <% title %>
 date: <% tp.date.now("YYYY-MM-DD HH:mm:ss") %> +0900
-categories: [<% category %>]
+categories: [<% categories %>]
 tags: [<% tags %>]
 ---
 
@@ -34,10 +40,8 @@ tags: [<% tags %>]
 
 ## Overview
 
-<% tp.file.cursor(1) %>
 
 ## Content
-
 
 
 ## Conclusion
@@ -48,4 +52,4 @@ tags: [<% tags %>]
 
 ## References
 
-- 
+-
