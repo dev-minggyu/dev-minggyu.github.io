@@ -40,7 +40,7 @@
     </ul>
   </nav>
 
-  <div class="sidebar-bottom d-flex flex-wrap align-items-center w-100">
+  <div class="sidebar-bottom d-flex flex-wrap  align-items-center w-100">
     {% unless site.theme_mode %}
       <button type="button" class="btn btn-link nav-link" aria-label="Switch Mode" id="mode-toggle">
         <i class="fas fa-adjust"></i>
@@ -101,30 +101,5 @@
     {% endfor %}
   </div>
   <!-- .sidebar-bottom -->
-
-  <!-- 방문자 통계 -->
-  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-  
-  <div class="sidebar-stats-container">
-    <div class="sidebar-stats">
-      <div class="stat-item">
-        <div class="stat-label">오늘 방문</div>
-        <div class="stat-value" id="busuanzi_value_page_pv">
-          <span class="loading">···</span>
-        </div>
-      </div>
-      
-      <div class="stat-divider"></div>
-      
-      <div class="stat-item">
-        <div class="stat-label">총 방문</div>
-        <div class="stat-value" id="busuanzi_value_site_pv">
-          <span class="loading">···</span>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- .sidebar-stats-container -->
-
 </aside>
 <!-- #sidebar -->
