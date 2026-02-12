@@ -3,16 +3,16 @@
   const database = firebase.database();
   const pageUrl = window.location.pathname;
   
-  // URL을 Firebase 키로 변환 (/, ., #, $, [, ] 제거)
+  <!-- URL을 Firebase 키로 변환 (/, ., #, $, [, ] 제거) -->
   const pageKey = pageUrl.replace(/\//g, '_').replace(/[.$#\[\]]/g, '');
   const pageRef = database.ref('views/' + pageKey);
   
-  // 조회수 증가
+  <!-- 조회수 증가 -->
   pageRef.transaction(function(currentViews) {
     return (currentViews || 0) + 1;
   });
   
-  // 실시간 조회수 표시
+  <!-- 실시간 조회수 표시 -->
   pageRef.on('value', function(snapshot) {
     const views = snapshot.val() || 0;
     const viewElement = document.getElementById('page-views-count');
