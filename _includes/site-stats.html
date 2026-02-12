@@ -1,32 +1,98 @@
 <script>
 (function() {
   const database = firebase.database();
-  
-  /* 총 방문자수 증가 및 표시 */
+  const VISIT_TIMEZONE = '{{ site.timezone | default: "Asia/Seoul" }}';
+  const TOTAL_VISIT_KEY = 'blog_total_visit_recorded_v1';
+  const DAILY_VISIT_KEY_PREFIX = 'blog_daily_visit_recorded_v1_';
+
+  function getDateStringInTimeZone(timeZone) {
+    try {
+      const parts = new Intl.DateTimeFormat('en-US', {
+        timeZone: timeZone,
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      }).formatToParts(new Date());
+
+      const map = {};
+      parts.forEach(function(part) {
+        map[part.type] = part.value;
+      });
+
+      return map.year + '-' + map.month + '-' + map.day;
+    } catch (error) {
+      return new Date().toISOString().split('T')[0];
+    }
+  }
+
+  function safeStorageGetItem(key) {
+    try {
+      return window.localStorage.getItem(key);
+    } catch (error) {
+      return null;
+    }
+  }
+
+  function safeStorageSetItem(key, value) {
+    try {
+      window.localStorage.setItem(key, value);
+    } catch (error) {
+      <!-- Ignore storage failures (e.g., private mode restrictions). -->
+    }
+  }
+
+  function renderCount(elementId, value) {
+    const elem = document.getElementById(elementId);
+    if (elem) {
+      elem.textContent = Number(value || 0).toLocaleString();
+    }
+  }
+
+  function loadCountOnce(ref, elementId) {
+    ref.once('value').then(function(snapshot) {
+      renderCount(elementId, snapshot.val());
+    });
+  }
+
+  function incrementAndRender(ref, elementId, onCommitted) {
+    ref.transaction(
+      function(current) {
+        return (current || 0) + 1;
+      },
+      function(error, committed, snapshot) {
+        if (!error && committed && snapshot) {
+          renderCount(elementId, snapshot.val());
+          if (typeof onCommitted === 'function') {
+            onCommitted();
+          }
+          return;
+        }
+
+        loadCountOnce(ref, elementId);
+      }
+    );
+  }
+
   const totalRef = database.ref('stats/total_visits');
-  totalRef.transaction(function(current) {
-    return (current || 0) + 1;
-  });
-  
-  totalRef.on('value', function(snapshot) {
-    const total = snapshot.val() || 0;
-    const elem = document.getElementById('total-visits');
-    if (elem) elem.textContent = total.toLocaleString();
-  });
-  
-  /* 오늘 방문자수 증가 및 표시 */
-  const today = new Date().toISOString().split('T')[0];
+  const today = getDateStringInTimeZone(VISIT_TIMEZONE);
   const todayRef = database.ref('stats/daily/' + today);
-  
-  todayRef.transaction(function(current) {
-    return (current || 0) + 1;
-  });
-  
-  todayRef.on('value', function(snapshot) {
-    const todayCount = snapshot.val() || 0;
-    const elem = document.getElementById('today-visits');
-    if (elem) elem.textContent = todayCount.toLocaleString();
-  });
+  const dailyStorageKey = DAILY_VISIT_KEY_PREFIX + today;
+
+  if (safeStorageGetItem(TOTAL_VISIT_KEY)) {
+    loadCountOnce(totalRef, 'total-visits');
+  } else {
+    incrementAndRender(totalRef, 'total-visits', function() {
+      safeStorageSetItem(TOTAL_VISIT_KEY, '1');
+    });
+  }
+
+  if (safeStorageGetItem(dailyStorageKey)) {
+    loadCountOnce(todayRef, 'today-visits');
+  } else {
+    incrementAndRender(todayRef, 'today-visits', function() {
+      safeStorageSetItem(dailyStorageKey, '1');
+    });
+  }
 })();
 </script>
 
@@ -36,7 +102,7 @@
       <div class="stat-label">오늘 방문자</div>
       <div class="stat-value" id="today-visits">-</div>
     </div>
-    
+
     <div class="stat-box">
       <div class="stat-label">총 방문자</div>
       <div class="stat-value" id="total-visits">-</div>
@@ -76,12 +142,12 @@
   letter-spacing: 1px;
 }
 
-/* 다크모드 지원 */
+/* Dark mode support */
 @media (prefers-color-scheme: dark) {
   .stat-box .stat-label {
     color: #aaa;
   }
-  
+
   .stat-box .stat-value {
     color: #fff;
   }
