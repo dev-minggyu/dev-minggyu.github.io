@@ -9,6 +9,9 @@ script_includes:
   - comment
 ---
 
+<!-- Busuanzi 스크립트 추가 -->
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
 {% include lang.html %}
 
 {% include toc-status.html %}
@@ -89,6 +92,14 @@ script_includes:
 			  {{ site.data.locales[lang].post.pageview_measure }}
 			</span>
 		  {% endif %}
+
+		  <!-- Busuanzi 조회수 추가 -->
+		  <span id="busuanzi_container_page_pv" class="busuanzi-views">
+			<em id="busuanzi_value_page_pv">
+			  <i class="fas fa-spinner fa-spin small"></i>
+			</em>
+			views
+		  </span>
 
 		  <!-- read time -->
 		  {% include read-time.html content=content prompt=true lang=lang %}
