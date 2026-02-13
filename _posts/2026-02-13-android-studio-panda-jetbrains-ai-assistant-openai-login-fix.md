@@ -47,9 +47,11 @@ comments: true
 ### MCP Server 플러그인
 
 ![Marketplace MCP Server 플러그인](/assets/img/posts/2026-02-13-android-studio-panda-codex/03-marketplace-mcp-server.png)
-### 4) 로그인 후 화면
+### 로그인 후 화면
 
-![Codex 로그인 후 실제 화면](/assets/img/posts/2026-02-13-android-studio-panda-codex/04-codex-login-success.png)
+<div>
+  <img src="/assets/img/posts/2026-02-13-android-studio-panda-codex/04-codex-login-success.png" alt="로그인 후 화면" loading="lazy">
+</div>
 
 
 여담이지만,, Codex CLI, App, Plugin 형태로 모두 사용해봤지만 앱이 가장 편했던 것 같습니다!
